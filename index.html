@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anointer - Bless Your Typography</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 18px;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      background: #fff;
+      color: #000;
+    }
+
+    .hero {
+      min-height: 100vh;
+      background: #000;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 24px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "† † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † †";
+      position: absolute;
+      top: 20px;
+      left: 0;
+      right: 0;
+      font-size: 1rem;
+      letter-spacing: 0.5rem;
+      opacity: 0.12;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦";
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      font-size: 1rem;
+      letter-spacing: 0.5rem;
+      opacity: 0.12;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(4rem, 22vw, 16rem);
+      font-weight: 900;
+      line-height: 0.85;
+      margin-bottom: 32px;
+      letter-spacing: -0.03em;
+    }
+
+    .tagline {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      font-style: italic;
+      font-weight: 400;
+      opacity: 0.7;
+      max-width: 600px;
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 40px;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      opacity: 0.4;
+      animation: bob 2s ease-in-out infinite;
+    }
+
+    @keyframes bob {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(8px); }
+    }
+
+    .install {
+      padding: 140px 24px;
+      text-align: center;
+      border-bottom: 2px solid #000;
+    }
+
+    .section-title {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(2.5rem, 10vw, 7rem);
+      font-weight: 900;
+      line-height: 0.95;
+      margin-bottom: 60px;
+    }
+
+    .install-area {
+      max-width: 700px;
+      margin: 0 auto 60px;
+    }
+
+    .gospel {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      margin-bottom: 40px;
+      color: #555;
+      line-height: 1.7;
+    }
+
+    .bookmarklet-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      padding: 28px 56px;
+      background: #000;
+      color: #fff;
+      text-decoration: none;
+      font-family: 'Playfair Display', Georgia, serif;
+      font-weight: 700;
+      font-size: 1.6rem;
+      transition: all 0.2s ease;
+      cursor: grab;
+      border: 3px solid #000;
+    }
+
+    .bookmarklet-link:hover {
+      background: #fff;
+      color: #000;
+    }
+
+    .bookmarklet-link:active {
+      cursor: grabbing;
+      transform: scale(0.98);
+    }
+
+    .bookmarklet-link .cross {
+      font-size: 2rem;
+    }
+
+    .instructions {
+      max-width: 550px;
+      margin: 0 auto;
+      text-align: left;
+    }
+
+    .instruction {
+      display: flex;
+      gap: 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .instruction:last-child {
+      border-bottom: none;
+    }
+
+    .instruction-num {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      line-height: 1;
+      opacity: 0.2;
+      min-width: 60px;
+    }
+
+    .instruction-text {
+      padding-top: 8px;
+      font-size: 1.05rem;
+    }
+
+    .tip {
+      max-width: 550px;
+      margin: 40px auto 0;
+      padding: 24px;
+      background: #f5f5f5;
+      font-size: 0.95rem;
+      color: #666;
+      text-align: left;
+    }
+
+    .tip strong {
+      color: #000;
+    }
+
+    .tip code {
+      background: #e0e0e0;
+      padding: 3px 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85em;
+    }
+
+    .playground {
+      background: #000;
+      color: #fff;
+      padding: 140px 24px;
+    }
+
+    .playground-intro {
+      text-align: center;
+      margin-bottom: 100px;
+    }
+
+    .playground-intro p {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      opacity: 0.6;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .test-blocks {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: grid;
+      gap: 3px;
+      background: #333;
+    }
+
+    .test-block {
+      padding: 56px;
+      background: #000;
+    }
+
+    .test-block.light {
+      background: #fff;
+      color: #000;
+    }
+
+    .test-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      opacity: 0.4;
+      margin-bottom: 20px;
+    }
+
+    .sermon {
+      font-family: 'Playfair Display', Georgia, serif;
+      text-align: center;
+      padding: 100px 56px;
+    }
+
+    .sermon .huge {
+      font-size: clamp(2.5rem, 8vw, 5.5rem);
+      font-weight: 900;
+      line-height: 0.95;
+      margin-bottom: 28px;
+    }
+
+    .sermon .verse {
+      font-size: 1.2rem;
+      font-style: italic;
+      opacity: 0.5;
+    }
+
+    .psalm {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.35rem;
+      line-height: 2;
+      max-width: 70ch;
+    }
+
+    .commandments {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+
+    .commandments ol {
+      list-style: none;
+      counter-reset: commandment;
+    }
+
+    .commandments li {
+      counter-increment: commandment;
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+      font-size: 1.15rem;
+      display: flex;
+      gap: 20px;
+    }
+
+    .commandments li::before {
+      content: counter(commandment, upper-roman) ".";
+      min-width: 50px;
+      font-weight: 700;
+      opacity: 0.35;
+    }
+
+    .light .commandments li {
+      border-bottom-color: rgba(0,0,0,0.1);
+    }
+
+    .liturgy {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+
+    .liturgy-item {
+      padding: 18px 22px;
+      background: #1a1a1a;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .light .liturgy-item {
+      background: #f0f0f0;
+    }
+
+    .scripture {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      line-height: 1.9;
+      background: #0a0a0a;
+      color: #0f0;
+      padding: 36px;
+      overflow-x: auto;
+    }
+
+    .scripture .comment { opacity: 0.4; }
+    .scripture .keyword { color: #f0f; }
+    .scripture .string { color: #ff0; }
+
+    .hymnal {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .hymnal-xl { font-size: 3.5rem; font-weight: 900; font-family: 'Playfair Display', serif; line-height: 1; }
+    .hymnal-lg { font-size: 2rem; font-weight: 700; font-family: 'Playfair Display', serif; }
+    .hymnal-md { font-size: 1.15rem; opacity: 0.8; }
+    .hymnal-sm { font-size: 0.9rem; opacity: 0.5; }
+    .hymnal-xs { font-size: 0.7rem; opacity: 0.35; text-transform: uppercase; letter-spacing: 0.15em; }
+
+    .relics {
+      font-size: 1.05rem;
+      line-height: 2.4;
+      opacity: 0.7;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .tongues {
+      display: grid;
+      gap: 20px;
+    }
+
+    .tongue {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 20px;
+      align-items: baseline;
+    }
+
+    @media (max-width: 600px) {
+      .tongue {
+        grid-template-columns: 1fr;
+        gap: 4px;
+      }
+    }
+
+    .tongue-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      opacity: 0.4;
+    }
+
+    .tongue-text {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 1.25rem;
+    }
+
+    .revelation {
+      padding: 180px 24px;
+      text-align: center;
+      background: #fff;
+      color: #000;
+    }
+
+    .revelation .massive {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: clamp(3rem, 12vw, 10rem);
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -0.03em;
+    }
+
+    footer {
+      background: #000;
+      color: #fff;
+      padding: 100px 24px;
+      text-align: center;
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      transition: border-color 0.2s;
+    }
+
+    footer a:hover {
+      border-bottom-color: #fff;
+    }
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+      margin-bottom: 40px;
+      font-size: 1.1rem;
+    }
+
+    .blessing {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-style: italic;
+      font-size: 1.1rem;
+      opacity: 0.5;
+      margin-bottom: 12px;
+    }
+
+    .credit {
+      opacity: 0.7;
+      font-size: 0.95rem;
+    }
+
+    .amen {
+      font-family: 'Playfair Display', Georgia, serif;
+      font-size: 2.5rem;
+      font-weight: 900;
+      margin-top: 48px;
+      letter-spacing: 0.4em;
+      opacity: 0.3;
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <h1 class="title">Anointer</h1>
+    <p class="tagline">"A quick blessing for your typography choices."</p>
+    <div class="scroll-hint">Scroll to receive ↓</div>
+  </section>
+
+  <section class="install">
+    <h2 class="section-title">Receive the Gift</h2>
+
+    <div class="install-area">
+      <p class="gospel">And lo, drag this unto your bookmarks bar, and ye shall have the power to transform all text before thine eyes.</p>
+
+      <a class="bookmarklet-link" id="bookmarklet">
+        <span class="cross">☨</span>
+        Anointer
+      </a>
+    </div>
+
+    <div class="instructions">
+      <div class="instruction">
+        <div class="instruction-num">I</div>
+        <div class="instruction-text">Drag the sacred button to your bookmarks bar</div>
+      </div>
+      <div class="instruction">
+        <div class="instruction-num">II</div>
+        <div class="instruction-text">Journey to any website and invoke the Anointer</div>
+      </div>
+      <div class="instruction">
+        <div class="instruction-num">III</div>
+        <div class="instruction-text">Select the text thou wishest to transform</div>
+      </div>
+      <div class="instruction">
+        <div class="instruction-num">IV</div>
+        <div class="instruction-text">Choose thy font and witness the transubstantiation</div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <strong>Revelation:</strong> If thine bookmarks bar remaineth hidden, press <code>Ctrl+Shift+B</code> (Windows) or <code>Cmd+Shift+B</code> (Mac) to summon it forth.
+    </div>
+  </section>
+
+  <section class="playground">
+    <div class="playground-intro">
+      <h2 class="section-title">The Testing Grounds</h2>
+      <p>Select any text below. Let the Holy Fonts flow through your fingertips.</p>
+    </div>
+
+    <div class="test-blocks">
+
+      <div class="test-block light sermon">
+        <div class="test-label">The Sermon</div>
+        <div class="huge">Helvetica is not a personality</div>
+        <div class="verse">— Typography 3:16</div>
+      </div>
+
+      <div class="test-block">
+        <div class="test-label">The Psalm</div>
+        <p class="psalm">Typography is the craft of endowing human language with a durable visual form. It is the art of designing letterforms and arranging them on a page or screen so that they become not mere symbols, but vessels of meaning, emotion, and beauty. In the beginning was the Word, and the Word needed a really good typeface.</p>
+      </div>
+
+      <div class="test-block light commandments">
+        <div class="test-label">The Commandments</div>
+        <ol>
+          <li>Thou shalt not use Comic Sans in professional documents</li>
+          <li>Thou shalt respect the kerning</li>
+          <li>Thou shalt maintain adequate line-height</li>
+          <li>Thou shalt not stretch thy fonts horizontally</li>
+          <li>Thou shalt limit thyself to two typefaces per design</li>
+        </ol>
+      </div>
+
+      <div class="test-block">
+        <div class="test-label">The Liturgy</div>
+        <div class="liturgy">
+          <div class="liturgy-item">Button</div>
+          <div class="liturgy-item">Link Text</div>
+          <div class="liturgy-item">LABEL</div>
+          <div class="liturgy-item">Heading</div>
+          <div class="liturgy-item">Caption</div>
+          <div class="liturgy-item">Menu Item</div>
+        </div>
+      </div>
+
+      <div class="test-block light">
+        <div class="test-label">The Scripture</div>
+        <div class="scripture">
+<span class="keyword">const</span> blessText = <span class="string">"In Nomine Fontis"</span>;
+<pre>
+<span class="comment">// Perform the sacred ritual</span>
+document.querySelectorAll(<span class="string">'*'</span>).forEach(el =&gt; {
+  el.style.fontFamily = <span class="string">'Comic Sans MS'</span>; <span class="comment">// HERESY!</span>
+});</pre></div>
+      </div>
+
+      <div class="test-block">
+        <div class="test-label">The Hymnal</div>
+        <div class="hymnal">
+          <div class="hymnal-xl">GLORIA IN EXCELSIS</div>
+          <div class="hymnal-lg">Kyrie Eleison</div>
+          <div class="hymnal-md">Regular text for the faithful masses</div>
+          <div class="hymnal-sm">Small print (terms and absolutions may apply)</div>
+          <div class="hymnal-xs">Fine print for the truly devoted</div>
+        </div>
+      </div>
+
+      <div class="test-block light">
+        <div class="test-label">The Relics</div>
+        <div class="relics">
+          ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
+          abcdefghijklmnopqrstuvwxyz<br>
+          0123456789<br>
+          † ‡ § ¶ © ® ™ € £ ¥ ¢ ° • · … — –<br>
+          !@#$%^&amp;*()_+-=[]{}|;':",./?
+        </div>
+      </div>
+
+      <div class="test-block tongues">
+        <div class="test-label">Speaking in Tongues</div>
+        <div class="tongue">
+          <span class="tongue-label">English</span>
+          <span class="tongue-text">The quick brown fox jumps over the lazy dog</span>
+        </div>
+        <div class="tongue">
+          <span class="tongue-label">Latin</span>
+          <span class="tongue-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit</span>
+        </div>
+        <div class="tongue">
+          <span class="tongue-label">Finnish</span>
+          <span class="tongue-text">Jäätteenmäen hääyöaie peruuntui: Åbo-akatemiassa olikin vain örkkejä töräyttelemässä.</span>
+        </div>
+        <div class="tongue">
+          <span class="tongue-label">German</span>
+          <span class="tongue-text">Falsches Üben von Xylophonmusik quält jeden größeren Zwerg</span>
+        </div>
+        <div class="tongue">
+          <span class="tongue-label">Icelandic</span>
+          <span class="tongue-text">Hræddur þjálfari bölvaði: ‘Æ, ónei!’ þegar öxin féll á xýlófóninn.</span>
+        </div>
+        <div class="tongue">
+          <span class="tongue-label">Arabic</span>
+          <span class="tongue-text">زومبي أخرق يعزف على الإكسيلوفون ويصرخ: «يا سلام! لماذا هذا الصوت لطيفٌ جدًا؟</span>
+        </div>
+        <div class="tongue">
+          <span class="tongue-label">Korean</span>
+          <span class="tongue-text">괴짜 좀비가 쿵쾅대며 자일로폰을 쥐고 외쳤다: ‘왜 이렇게 뿌엉~하고 귀엽냐?!</span>
+        </div>
+        <div class="tongue">
+          <span class="tongue-label">Japanese</span>
+          <span class="tongue-text">怪しい妖怪がジャズ風シロフォンをボヨヨ〜ンと叩き、ヅラ猫はウィンクした。「ヴォイ！」</span>
+        </div>
+        <div class="tongue">
+          <span class="tongue-label">Chinese</span>
+          <span class="tongue-text">怪咖僵尸在北京胡同敲着木琴，嚷着：“别忘了吃剁椒螺蛳粉</span>
+        </div>
+        <div class="tongue">
+          <span class="tongue-label">Thai</span>
+          <span class="tongue-text">ซอมบี้จอมเปิ่นตีระนาดแล้วร้องลั่นว่า ‘โอ๊ย! ทำไมเสียงมันน่ารักจังวะ?!</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="revelation">
+    <div class="massive">Go forth and set type.</div>
+  </section>
+
+  <footer>
+    <div class="footer-links">
+      <a href="https://github.com/alv22/anointer" target="_blank">GitHub</a>
+    </div>
+    <p class="blessing">Freely given unto the world</p>
+    <p class="credit">by <a href="https://www.hexagon.fi" target="_blank">Hexagon Intergalactic Ltd</a></p>
+    <p style="margin-top: 16px; opacity: 0.4; font-size: 0.85rem;">Open source. No indulgences required.</p>
+    <div class="amen">AMEN</div>
+  </footer>
+
+  <script>
+    fetch('bookmarklet.js')
+      .then(function(response) { return response.text(); })
+      .then(function(code) {
+        var minified = code
+          .replace(/\n\s*/g, ' ')
+          .replace(/\s+/g, ' ')
+          .trim();
+        document.getElementById('bookmarklet').href = 'javascript:' + encodeURIComponent(minified);
+      });
+  </script>
+</body>
+</html>
