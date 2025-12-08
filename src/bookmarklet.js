@@ -149,12 +149,6 @@
     var panel = document.createElement('div');
     panel.className = '__gft-panel';
 
-    // Close button
-    var closeBtn = document.createElement('button');
-    closeBtn.className = '__gft-close';
-    closeBtn.title = 'Close';
-    closeBtn.innerHTML = '&times;';
-
     // Font search wrapper
     var selectWrapper = document.createElement('div');
     selectWrapper.className = '__gft-select-wrapper';
@@ -225,7 +219,6 @@
     buttons.appendChild(resetBtn);
 
     // Assemble panel
-    panel.appendChild(closeBtn);
     panel.appendChild(selectWrapper);
     panel.appendChild(status);
     panel.appendChild(weightRow);
@@ -573,7 +566,6 @@
     // Get UI element references
     var toggle = container.querySelector('.__gft-toggle');
     var panel = container.querySelector('.__gft-panel');
-    var closeBtn = container.querySelector('.__gft-close');
     var searchInput = container.querySelector('.__gft-search');
     var dropdown = container.querySelector('.__gft-dropdown');
     var status = container.querySelector('.__gft-status');
@@ -589,12 +581,6 @@
     toggle.addEventListener('click', function() {
       var isOpen = panel.classList.toggle('open');
       toggle.style.display = isOpen ? 'none' : 'flex';
-    });
-
-    // Close panel
-    closeBtn.addEventListener('click', function() {
-      panel.classList.remove('open');
-      toggle.style.display = 'flex';
     });
 
     // Capture text selection on mouseup
