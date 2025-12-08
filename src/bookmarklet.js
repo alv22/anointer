@@ -77,6 +77,9 @@
     buttons: -1
   };
 
+  // Track if CSP warning has been shown
+  var cspWarningShown = false;
+
   /**
    * Load a single font from Google Fonts
    * @param {string} fontName - Name of the font to load
@@ -87,6 +90,15 @@
     var link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = 'https://fonts.googleapis.com/css2?family=' + fontName.replace(/ /g, '+') + ':wght@100;200;300;400;500;600;700;800;900&display=swap';
+
+    // Detect CSP or network errors
+    link.onerror = function() {
+      if (!cspWarningShown) {
+        cspWarningShown = true;
+        console.warn('Anointer: Font loading blocked - this page may have Content Security Policy restrictions that prevent loading external fonts.');
+      }
+    };
+
     document.head.appendChild(link);
   }
 
