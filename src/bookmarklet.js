@@ -523,20 +523,40 @@
 
   // ===== PAGE-WIDE FONT FUNCTIONS =====
 
+  // CSS selectors for each category
+  var HEADING_SELECTOR = 'h1, h2, h3, h4, h5, h6, [class*="heading"], [class*="title"], [class*="headline"]';
+  var BUTTON_SELECTOR = 'button, input[type="button"], input[type="submit"], [role="button"], [class*="btn"], [class*="button"]';
+
   /**
-   * Get CSS selector for a page font category
-   * @param {string} category - 'body', 'headings', or 'buttons'
-   * @returns {string} CSS selector
+   * Update the page-wide font stylesheet
+   * Uses CSS rules instead of inline styles for better specificity
    */
-  function getSelectorForCategory(category) {
-    if (category === 'body') {
-      return 'body';
-    } else if (category === 'headings') {
-      return 'h1,h2,h3,h4,h5,h6';
-    } else if (category === 'buttons') {
-      return 'button, input[type="button"], input[type="submit"], [role="button"]';
+  function updatePageStylesheet() {
+    var styleEl = document.getElementById('__gft-page-styles');
+    if (!styleEl) {
+      styleEl = document.createElement('style');
+      styleEl.id = '__gft-page-styles';
+      document.head.appendChild(styleEl);
     }
-    return '';
+
+    var rules = [];
+
+    // Body applies to everything EXCEPT headings and buttons (so they can override)
+    if (currentPageFonts.body) {
+      rules.push('body:not(' + HEADING_SELECTOR + '):not(' + BUTTON_SELECTOR + '), body *:not(' + HEADING_SELECTOR + '):not(' + BUTTON_SELECTOR + ') { font-family: "' + currentPageFonts.body + '", sans-serif !important; }');
+    }
+
+    // Headings get their own rule (higher priority than body)
+    if (currentPageFonts.headings) {
+      rules.push(HEADING_SELECTOR + ' { font-family: "' + currentPageFonts.headings + '", sans-serif !important; }');
+    }
+
+    // Buttons get their own rule (higher priority than body)
+    if (currentPageFonts.buttons) {
+      rules.push(BUTTON_SELECTOR + ' { font-family: "' + currentPageFonts.buttons + '", sans-serif !important; }');
+    }
+
+    styleEl.textContent = rules.join('\n');
   }
 
   /**
@@ -607,24 +627,14 @@
 
   /**
    * Apply a font to all elements in a page category
+   * Uses stylesheet injection for better CSS specificity
    * @param {string} category - 'body', 'headings', or 'buttons'
    * @param {string} font - Font name to apply
    */
   function applyPageFont(category, font) {
-    var selector = getSelectorForCategory(category);
-    if (!selector) return;
-
     loadFontAsync(font).then(function() {
-      var elements = document.querySelectorAll(selector);
-      for (var i = 0; i < elements.length; i++) {
-        var el = elements[i];
-        // Store original font if not already stored
-        if (el.__gftOriginalFont === undefined) {
-          el.__gftOriginalFont = el.style.fontFamily || '';
-        }
-        el.style.setProperty('font-family', font + ', sans-serif', 'important');
-      }
       currentPageFonts[category] = font;
+      updatePageStylesheet();
     });
   }
 
@@ -633,19 +643,15 @@
    * @param {Object} pageInputs - Object containing input elements for each category
    */
   function resetPageFonts(pageInputs) {
-    var categories = ['body', 'headings', 'buttons'];
-    for (var c = 0; c < categories.length; c++) {
-      var category = categories[c];
-      var selector = getSelectorForCategory(category);
-      var elements = document.querySelectorAll(selector);
-      for (var i = 0; i < elements.length; i++) {
-        var el = elements[i];
-        if (el.__gftOriginalFont !== undefined) {
-          el.style.fontFamily = el.__gftOriginalFont;
-          delete el.__gftOriginalFont;
-        }
-      }
-      currentPageFonts[category] = null;
+    // Clear all page fonts
+    currentPageFonts.body = null;
+    currentPageFonts.headings = null;
+    currentPageFonts.buttons = null;
+
+    // Clear the stylesheet
+    var styleEl = document.getElementById('__gft-page-styles');
+    if (styleEl) {
+      styleEl.textContent = '';
     }
 
     // Re-detect and update UI
