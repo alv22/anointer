@@ -19,8 +19,9 @@ Visit **[anointer.hexagon.fi](https://anointer.hexagon.fi)** and drag the sacred
 Or, if thou art a developer of the faith:
 
 1. Clone this repository
-2. Serve `index.html` locally
-3. Drag the bookmarklet to your toolbar
+2. Run `npm install` to gather the sacred dependencies
+3. Run `npm run dev` to summon the development server
+4. Drag the bookmarklet to your toolbar
 
 ---
 
@@ -69,16 +70,36 @@ If thine bookmarks bar remaineth hidden:
 
 ---
 
-## Development
+## The Sacred Scrolls (Development)
+
+This temple is built upon **Vite** and **Tailwind CSS**. The bookmarklet dwelleth in `src/bookmarklet.js`, annotated with JSDoc scriptures for the edification of future disciples.
 
 ```bash
-# Serve locally (any static server works)
-python -m http.server 8000
-# or
-npx serve .
+# Install the sacred dependencies
+npm install
+
+# Summon the development server (localhost:5173)
+npm run dev
+
+# Prepare the offering for production
+npm run build
+
+# Preview the production build
+npm run preview
 ```
 
-The bookmarklet code lives in `bookmarklet.js`. The landing page automatically minifies and encodes it.
+### The House of the Lord
+
+```
+src/
+├── main.js           # Encodes the bookmarklet into a holy URL
+├── bookmarklet.js    # The source of all font blessings
+└── styles/
+    ├── main.css      # Tailwind incantations
+    └── decorations.css  # The ornamental crosses
+```
+
+Upon building, Vite shall minify the bookmarklet and place it at `dist/bookmarklet.js`, stripped of comments but not of its power.
 
 ---
 
