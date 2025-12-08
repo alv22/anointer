@@ -1105,7 +1105,10 @@
         drop.classList.add('open');
       });
 
-      // Keyboard navigation
+      // Keyboard navigation - debounce timeout for this category
+      var categoryTimeout = null;
+      var categoryPendingFont = null;
+
       input.addEventListener('keydown', function(e) {
         if (!drop.classList.contains('open')) {
           populatePageDropdown(drop, category, '');
@@ -1121,9 +1124,21 @@
           pageHighlightedIndex[category] = idx;
           highlightOption(drop, idx);
           if (fonts[idx]) {
-            input.value = fonts[idx];
+            var font = fonts[idx];
+            categoryPendingFont = font;
+            input.value = font;
             input.classList.remove('multiple');
-            input.style.fontFamily = '"' + fonts[idx] + '", sans-serif';
+
+            // Clear previous pending load
+            if (categoryTimeout) clearTimeout(categoryTimeout);
+
+            // Debounce: wait 100ms before applying to allow rapid navigation
+            categoryTimeout = setTimeout(function() {
+              if (categoryPendingFont === font) {
+                applyPageFont(category, font);
+                input.style.fontFamily = '"' + font + '", sans-serif';
+              }
+            }, 100);
           }
         } else if (e.key === 'ArrowUp') {
           e.preventDefault();
@@ -1131,12 +1146,26 @@
           pageHighlightedIndex[category] = idx;
           highlightOption(drop, idx);
           if (fonts[idx]) {
-            input.value = fonts[idx];
+            var font = fonts[idx];
+            categoryPendingFont = font;
+            input.value = font;
             input.classList.remove('multiple');
-            input.style.fontFamily = '"' + fonts[idx] + '", sans-serif';
+
+            // Clear previous pending load
+            if (categoryTimeout) clearTimeout(categoryTimeout);
+
+            // Debounce: wait 100ms before applying to allow rapid navigation
+            categoryTimeout = setTimeout(function() {
+              if (categoryPendingFont === font) {
+                applyPageFont(category, font);
+                input.style.fontFamily = '"' + font + '", sans-serif';
+              }
+            }, 100);
           }
         } else if (e.key === 'Enter') {
           e.preventDefault();
+          // Clear any pending timeout and apply immediately
+          if (categoryTimeout) clearTimeout(categoryTimeout);
           if (fonts[idx]) {
             applyPageFont(category, fonts[idx]);
             input.value = fonts[idx];
