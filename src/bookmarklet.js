@@ -1,7 +1,20 @@
+/**
+ * Anointer Bookmarklet
+ * A typography tool for blessing any website with beautiful fonts.
+ *
+ * This bookmarklet creates a floating UI that allows users to:
+ * - Select text on any webpage
+ * - Apply custom Google Fonts to the selection
+ * - Adjust font weight (100-900)
+ * - Adjust font size (20%-400%)
+ * - Reset styling back to original
+ */
 (function() {
+  // Prevent multiple instances
   if (window.__gftActive) return;
   window.__gftActive = true;
 
+  // Available Google Fonts library
   var FONTS = [
     'Abel', 'Abril Fatface', 'Alfa Slab One', 'Anton', 'Archivo', 'Archivo Black',
     'Arimo', 'Arvo', 'Asap', 'Assistant', 'Bangers', 'Barlow', 'Barlow Condensed',
@@ -24,16 +37,22 @@
     'Work Sans', 'Yanone Kaffeesatz', 'Yellowtail', 'Zilla Slab'
   ];
 
-  var currentSpan = null;
-  var selectedFont = null;
-  var filteredFonts = FONTS.slice();
-  var highlightedIndex = -1;
-  var currentWeight = 400;
-  var currentSize = 100;
-  var originalFontSize = null;
+  // State management
+  var currentSpan = null;        // Currently styled text span
+  var selectedFont = null;       // Currently selected font name
+  var filteredFonts = FONTS.slice();  // Filtered font list for search
+  var highlightedIndex = -1;     // Keyboard navigation index
+  var currentWeight = 400;       // Current font weight
+  var currentSize = 100;         // Current font size percentage
+  var originalFontSize = null;   // Original font size of selected text
 
+  // Track which fonts have been loaded
   var loadedFonts = {};
 
+  /**
+   * Load a single font from Google Fonts
+   * @param {string} fontName - Name of the font to load
+   */
   function loadFont(fontName) {
     if (loadedFonts[fontName]) return;
     loadedFonts[fontName] = true;
@@ -43,18 +62,10 @@
     document.head.appendChild(link);
   }
 
-  function loadAllFonts() {
-    var batchSize = 20;
-    for (var i = 0; i < FONTS.length; i += batchSize) {
-      var batch = FONTS.slice(i, i + batchSize);
-      var families = batch.map(function(f) { return 'family=' + f.replace(/ /g, '+'); }).join('&');
-      var link = document.createElement('link');
-      link.rel = 'stylesheet';
-      link.href = 'https://fonts.googleapis.com/css2?' + families + '&display=swap';
-      document.head.appendChild(link);
-    }
-  }
-
+  /**
+   * Inject the toolbar styles into the page
+   * Uses namespaced classes to avoid conflicts with page styles
+   */
   function injectStyles() {
     var style = document.createElement('style');
     style.id = '__gft-styles';
@@ -62,23 +73,31 @@
     document.head.appendChild(style);
   }
 
+  /**
+   * Create the floating toolbar UI
+   * @returns {HTMLElement} The container element
+   */
   function createUI() {
     var container = document.createElement('div');
     container.className = '__gft-container';
 
+    // Toggle button (circular with cross icon)
     var toggle = document.createElement('button');
     toggle.className = '__gft-toggle';
     toggle.title = 'Anointer';
     toggle.textContent = '☨';
 
+    // Main panel
     var panel = document.createElement('div');
     panel.className = '__gft-panel';
 
+    // Close button
     var closeBtn = document.createElement('button');
     closeBtn.className = '__gft-close';
     closeBtn.title = 'Close';
     closeBtn.innerHTML = '&times;';
 
+    // Font search wrapper
     var selectWrapper = document.createElement('div');
     selectWrapper.className = '__gft-select-wrapper';
 
@@ -93,10 +112,12 @@
     selectWrapper.appendChild(search);
     selectWrapper.appendChild(dropdown);
 
+    // Status indicator
     var status = document.createElement('div');
     status.className = '__gft-status';
     status.textContent = 'Select text on the page to style it';
 
+    // Weight slider row
     var weightRow = document.createElement('div');
     weightRow.className = '__gft-slider-row';
     var weightLabel = document.createElement('span');
@@ -116,6 +137,7 @@
     weightRow.appendChild(weightSlider);
     weightRow.appendChild(weightValue);
 
+    // Size slider row
     var sizeRow = document.createElement('div');
     sizeRow.className = '__gft-slider-row';
     var sizeLabel = document.createElement('span');
@@ -135,6 +157,7 @@
     sizeRow.appendChild(sizeSlider);
     sizeRow.appendChild(sizeValue);
 
+    // Action buttons
     var buttons = document.createElement('div');
     buttons.className = '__gft-buttons';
 
@@ -143,6 +166,7 @@
     resetBtn.textContent = 'Reset';
     buttons.appendChild(resetBtn);
 
+    // Assemble panel
     panel.appendChild(closeBtn);
     panel.appendChild(selectWrapper);
     panel.appendChild(status);
@@ -157,6 +181,11 @@
     return container;
   }
 
+  /**
+   * Populate the font dropdown with filtered options
+   * @param {HTMLElement} dropdown - The dropdown element
+   * @param {string} filter - Optional search filter
+   */
   function populateDropdown(dropdown, filter) {
     filter = filter || '';
     var filterLower = filter.toLowerCase();
@@ -174,6 +203,7 @@
       if (font === selectedFont) {
         option.classList.add('selected');
       }
+      // Preview font on hover
       option.addEventListener('mouseenter', function() {
         var f = this.getAttribute('data-font');
         loadFont(f);
@@ -183,6 +213,11 @@
     }
   }
 
+  /**
+   * Highlight an option in the dropdown for keyboard navigation
+   * @param {HTMLElement} dropdown - The dropdown element
+   * @param {number} index - Index to highlight
+   */
   function highlightOption(dropdown, index) {
     var options = dropdown.querySelectorAll('.__gft-option');
     for (var i = 0; i < options.length; i++) {
@@ -195,6 +230,11 @@
     }
   }
 
+  /**
+   * Detect the current font of an element
+   * @param {HTMLElement} element - Element to check
+   * @returns {string|null} Font name if found in our library
+   */
   function detectFont(element) {
     var computed = window.getComputedStyle(element);
     var fontFamily = computed.fontFamily;
@@ -210,6 +250,14 @@
     return null;
   }
 
+  /**
+   * Capture the current text selection and wrap it in a styled span
+   * @param {HTMLElement} container - The toolbar container (to exclude from selection)
+   * @param {HTMLElement} status - Status display element
+   * @param {HTMLElement} searchInput - Search input element
+   * @param {HTMLElement} dropdown - Font dropdown element
+   * @returns {boolean} Whether a selection was captured
+   */
   function captureSelection(container, status, searchInput, dropdown) {
     var selection = window.getSelection();
     if (!selection || selection.isCollapsed || selection.rangeCount === 0) {
@@ -218,16 +266,19 @@
 
     var range = selection.getRangeAt(0);
 
+    // Don't capture selections inside the toolbar
     if (container.contains(range.commonAncestorContainer)) {
       return false;
     }
 
     try {
+      // Get original font size for percentage calculations
       var startNode = range.startContainer;
       var element = startNode.nodeType === 3 ? startNode.parentNode : startNode;
       var computed = window.getComputedStyle(element);
       originalFontSize = parseFloat(computed.fontSize);
 
+      // Try to detect existing font
       var detectedFont = detectFont(element);
       if (detectedFont && !selectedFont) {
         selectedFont = detectedFont;
@@ -236,6 +287,7 @@
         populateDropdown(dropdown);
       }
 
+      // Remove previous styled span if exists
       if (currentSpan && currentSpan.parentNode) {
         var oldParent = currentSpan.parentNode;
         while (currentSpan.firstChild) {
@@ -244,6 +296,7 @@
         oldParent.removeChild(currentSpan);
       }
 
+      // Create new styled span
       currentSpan = document.createElement('span');
       currentSpan.className = '__gft-styled';
 
@@ -251,6 +304,7 @@
       currentSpan.appendChild(contents);
       range.insertNode(currentSpan);
 
+      // Apply current styles
       if (selectedFont) {
         currentSpan.style.setProperty('font-family', selectedFont + ', sans-serif', 'important');
       }
@@ -258,6 +312,7 @@
       var newSize = originalFontSize * (currentSize / 100);
       currentSpan.style.setProperty('font-size', newSize + 'px', 'important');
 
+      // Update status with preview of selected text
       var preview = currentSpan.textContent.substring(0, 20);
       if (currentSpan.textContent.length > 20) preview += '...';
       status.textContent = 'Styling: "' + preview + '"';
@@ -271,6 +326,10 @@
     }
   }
 
+  /**
+   * Apply a font to the current selection
+   * @param {string} font - Font name to apply
+   */
   function applyFont(font) {
     selectedFont = font;
     loadFont(font);
@@ -279,6 +338,10 @@
     }
   }
 
+  /**
+   * Apply a font weight to the current selection
+   * @param {number} weight - Font weight (100-900)
+   */
   function applyWeight(weight) {
     currentWeight = weight;
     if (currentSpan) {
@@ -286,6 +349,10 @@
     }
   }
 
+  /**
+   * Apply a font size to the current selection
+   * @param {number} size - Size as percentage (20-400)
+   */
   function applySize(size) {
     currentSize = size;
     if (currentSpan && originalFontSize) {
@@ -294,6 +361,11 @@
     }
   }
 
+  /**
+   * Reset the current selection to its original state
+   * @param {HTMLElement} status - Status display element
+   * @param {HTMLElement} searchInput - Search input element
+   */
   function reset(status, searchInput) {
     if (currentSpan && currentSpan.parentNode) {
       var parent = currentSpan.parentNode;
@@ -311,10 +383,14 @@
     searchInput.style.fontFamily = '';
   }
 
+  /**
+   * Initialize the bookmarklet
+   */
   function init() {
     injectStyles();
     var container = createUI();
 
+    // Get UI element references
     var toggle = container.querySelector('.__gft-toggle');
     var panel = container.querySelector('.__gft-panel');
     var closeBtn = container.querySelector('.__gft-close');
@@ -329,16 +405,19 @@
 
     populateDropdown(dropdown);
 
+    // Toggle panel visibility
     toggle.addEventListener('click', function() {
       var isOpen = panel.classList.toggle('open');
       toggle.style.display = isOpen ? 'none' : 'flex';
     });
 
+    // Close panel
     closeBtn.addEventListener('click', function() {
       panel.classList.remove('open');
       toggle.style.display = 'flex';
     });
 
+    // Capture text selection on mouseup
     document.addEventListener('mouseup', function(e) {
       if (container.contains(e.target)) return;
       setTimeout(function() {
@@ -346,6 +425,7 @@
       }, 10);
     });
 
+    // Font search functionality
     searchInput.addEventListener('focus', function() {
       dropdown.classList.add('open');
     });
@@ -355,6 +435,7 @@
       dropdown.classList.add('open');
     });
 
+    // Keyboard navigation for font dropdown
     searchInput.addEventListener('keydown', function(e) {
       if (!dropdown.classList.contains('open')) {
         dropdown.classList.add('open');
@@ -386,6 +467,7 @@
       }
     });
 
+    // Close dropdown when clicking outside
     document.addEventListener('click', function(e) {
       if (!container.contains(e.target)) {
         dropdown.classList.remove('open');
@@ -394,6 +476,7 @@
       }
     });
 
+    // Handle font selection from dropdown
     dropdown.addEventListener('click', function(e) {
       var option = e.target.closest('.__gft-option');
       if (option) {
@@ -403,6 +486,7 @@
         searchInput.style.fontFamily = font + ', sans-serif';
         dropdown.classList.remove('open');
 
+        // Update selected state
         var allOptions = dropdown.querySelectorAll('.__gft-option');
         for (var i = 0; i < allOptions.length; i++) {
           if (allOptions[i].getAttribute('data-font') === font) {
@@ -414,6 +498,7 @@
       }
     });
 
+    // Reset button
     resetBtn.addEventListener('click', function() {
       reset(status, searchInput);
       currentWeight = 400;
@@ -425,18 +510,21 @@
       populateDropdown(dropdown);
     });
 
+    // Weight slider
     weightSlider.addEventListener('input', function(e) {
       var weight = e.target.value;
       weightValueEl.textContent = weight;
       applyWeight(weight);
     });
 
+    // Size slider
     sizeSlider.addEventListener('input', function(e) {
       var size = e.target.value;
       sizeValueEl.textContent = size + '%';
       applySize(size);
     });
 
+    // Close panel on Escape
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Escape' && panel.classList.contains('open')) {
         panel.classList.remove('open');

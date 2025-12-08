@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -7,567 +7,135 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      font-size: 18px;
-    }
-
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      line-height: 1.6;
-      background: #fff;
-      color: #000;
-    }
-
-    .hero {
-      min-height: 100vh;
-      background: #000;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 40px 24px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: "† † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † †";
-      position: absolute;
-      top: 20px;
-      left: 0;
-      right: 0;
-      font-size: 1rem;
-      letter-spacing: 0.5rem;
-      opacity: 0.15;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-
-    .hero::after {
-      content: "☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦";
-      position: absolute;
-      bottom: 20px;
-      left: 0;
-      right: 0;
-      font-size: 1rem;
-      letter-spacing: 0.5rem;
-      opacity: 0.15;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-
-    .title {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(4rem, 22vw, 16rem);
-      font-weight: 900;
-      line-height: 0.85;
-      margin-bottom: 32px;
-      letter-spacing: -0.03em;
-    }
-
-    .tagline {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(1.1rem, 3vw, 1.6rem);
-      font-style: italic;
-      font-weight: 400;
-      opacity: 0.7;
-      max-width: 600px;
-    }
-
-    .scroll-hint {
-      position: absolute;
-      bottom: 80px;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.25em;
-      opacity: 0.4;
-      animation: bob 2s ease-in-out infinite;
-    }
-
-    @keyframes bob {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(8px); }
-    }
-
-    .install {
-      padding: 140px 24px 70px;
-      text-align: center;
-      border-bottom: 2px solid #000;
-    }
-
-    .section-title {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(2.5rem, 10vw, 7rem);
-      font-weight: 900;
-      line-height: 0.95;
-      margin-bottom: 60px;
-    }
-
-    .install-area {
-      max-width: 700px;
-      margin: 0 auto 60px;
-    }
-
-    .gospel {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.2rem;
-      font-style: italic;
-      margin-bottom: 40px;
-      color: #555;
-      line-height: 1.7;
-    }
-
-    .bookmarklet-link {
-      display: inline-flex;
-      align-items: center;
-      border-radius: 10px;
-      gap: 14px;
-      padding: 28px 56px;
-      background: #000;
-      color: #fff;
-      text-decoration: none;
-      font-family: 'Playfair Display', Georgia, serif;
-      font-weight: 700;
-      font-size: 1.6rem;
-      transition: all 0.2s ease;
-      cursor: grab;
-      border: 3px solid #000;
-    }
-
-    .bookmarklet-link:hover {
-      background: #fff;
-      color: #000;
-    }
-
-    .bookmarklet-link:active {
-      cursor: grabbing;
-      transform: scale(0.98);
-    }
-
-    .bookmarklet-link .cross {
-      font-size: 2rem;
-    }
-
-    .instructions {
-      max-width: 550px;
-      margin: 0 auto;
-      text-align: left;
-    }
-
-    .instruction {
-      display: flex;
-      gap: 24px;
-      padding: 24px 0;
-      border-bottom: 1px solid #ddd;
-    }
-
-    .instruction:last-child {
-      border-bottom: none;
-    }
-
-    .instruction-num {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 2.5rem;
-      font-weight: 900;
-      line-height: 1;
-      opacity: 0.2;
-      min-width: 60px;
-    }
-
-    .instruction-text {
-      padding-top: 8px;
-      font-size: 1.05rem;
-    }
-
-    .tip {
-      max-width: 550px;
-      margin: 40px auto 0;
-      padding: 24px;
-      background: #f5f5f5;
-      font-size: 0.95rem;
-      color: #666;
-      text-align: left;
-    }
-
-    .tip strong {
-      color: #000;
-    }
-
-    .tip code {
-      background: #e0e0e0;
-      padding: 3px 8px;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85em;
-    }
-
-    .playground {
-      background: #000;
-      color: #fff;
-      padding: 140px 24px;
-    }
-
-    .playground-intro {
-      text-align: center;
-      margin-bottom: 100px;
-    }
-
-    .playground-intro p {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.4rem;
-      font-style: italic;
-      opacity: 0.6;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .test-blocks {
-      max-width: 1400px;
-      margin: 0 auto;
-      display: grid;
-      gap: 3px;
-      background: #333;
-    }
-
-    .test-block {
-      padding: 56px;
-      background: #000;
-    }
-
-    .test-block.light {
-      background: #fff;
-      color: #000;
-    }
-
-    .test-label {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.2em;
-      opacity: 0.4;
-      margin-bottom: 20px;
-    }
-
-    .sermon {
-      font-family: 'Playfair Display', Georgia, serif;
-      text-align: center;
-      padding: 100px 56px;
-    }
-
-    .sermon .huge {
-      font-size: clamp(2.5rem, 8vw, 5.5rem);
-      font-weight: 900;
-      line-height: 0.95;
-      margin-bottom: 28px;
-    }
-
-    .sermon .verse {
-      font-size: 1.2rem;
-      font-style: italic;
-      opacity: 0.5;
-    }
-
-    .psalm {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.35rem;
-      line-height: 2;
-      max-width: 70ch;
-    }
-
-    .commandments {
-      font-family: 'Playfair Display', Georgia, serif;
-    }
-
-    .commandments ol {
-      list-style: none;
-      counter-reset: commandment;
-    }
-
-    .commandments li {
-      counter-increment: commandment;
-      padding: 20px 0;
-      border-bottom: 1px solid rgba(255,255,255,0.15);
-      font-size: 1.15rem;
-      display: flex;
-      gap: 20px;
-    }
-
-    .commandments li::before {
-      content: counter(commandment, upper-roman) ".";
-      min-width: 50px;
-      font-weight: 700;
-      opacity: 0.35;
-    }
-
-    .light .commandments li {
-      border-bottom-color: rgba(0,0,0,0.1);
-    }
-
-    .liturgy {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-      gap: 12px;
-    }
-
-    .liturgy-item {
-      padding: 18px 22px;
-      background: #1a1a1a;
-      font-weight: 500;
-      font-size: 0.95rem;
-    }
-
-    .light .liturgy-item {
-      background: #f0f0f0;
-    }
-
-    .scripture {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem;
-      line-height: 1.9;
-      background: #0a0a0a;
-      color: #0f0;
-      padding: 36px;
-      overflow-x: auto;
-    }
-
-    .scripture .comment { opacity: 0.4; }
-    .scripture .keyword { color: #f0f; }
-    .scripture .string { color: #ff0; }
-
-    .hymnal {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-    }
-
-    .hymnal-xl { font-size: 3.5rem; font-weight: 900; font-family: 'Playfair Display', serif; line-height: 1; }
-    .hymnal-lg { font-size: 2rem; font-weight: 700; font-family: 'Playfair Display', serif; }
-    .hymnal-md { font-size: 1.15rem; opacity: 0.8; }
-    .hymnal-sm { font-size: 0.9rem; opacity: 0.5; }
-    .hymnal-xs { font-size: 0.7rem; opacity: 0.35; text-transform: uppercase; letter-spacing: 0.15em; }
-
-    .relics {
-      font-size: 1.05rem;
-      line-height: 2.4;
-      opacity: 0.7;
-      font-family: 'JetBrains Mono', monospace;
-    }
-
-    .tongues {
-      display: grid;
-      gap: 20px;
-    }
-
-    .tongue {
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      gap: 20px;
-      align-items: baseline;
-    }
-
-    @media (max-width: 600px) {
-      .tongue {
-        grid-template-columns: 1fr;
-        gap: 4px;
-      }
-    }
-
-    .tongue-label {
-      font-size: 0.65rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      opacity: 0.4;
-    }
-
-    .tongue-text {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 1.25rem;
-    }
-
-    .revelation {
-      padding: 180px 24px;
-      text-align: center;
-      background: #fff;
-      color: #000;
-    }
-
-    .revelation .massive {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: clamp(3rem, 8vw, 10rem);
-      font-weight: 900;
-      line-height: 0.9;
-    }
-
-    footer {
-      background: #000;
-      color: #fff;
-      padding: 100px 24px;
-      text-align: center;
-    }
-
-    footer a {
-      color: #fff;
-      text-decoration: none;
-      border-bottom: 1px solid rgba(255,255,255,0.3);
-      transition: border-color 0.2s;
-    }
-
-    footer a:hover {
-      border-bottom-color: #fff;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 48px;
-      margin-bottom: 40px;
-      font-size: 1.1rem;
-    }
-
-    .blessing {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-style: italic;
-      font-size: 1.1rem;
-      opacity: 0.5;
-      margin-bottom: 12px;
-    }
-
-    .credit {
-      opacity: 0.7;
-      font-size: 0.95rem;
-    }
-
-    .amen {
-      font-family: 'Playfair Display', Georgia, serif;
-      font-size: 2.5rem;
-      font-weight: 900;
-      margin-top: 48px;
-      letter-spacing: 0.4em;
-      opacity: 0.3;
-    }
-  </style>
 </head>
-<body>
+<body class="font-body leading-relaxed bg-white text-black">
 
-  <section class="hero">
-    <h1 class="title">Anointer</h1>
-    <p class="tagline">"A quick blessing for your typography choices."</p>
-    <div class="scroll-hint">Scroll to receive ↓</div>
+  <!-- Hero Section -->
+  <section class="hero min-h-screen bg-black text-white flex flex-col justify-center items-center text-center px-6 py-10 relative overflow-hidden">
+    <h1 class="font-display text-[clamp(4rem,22vw,16rem)] font-black leading-[0.85] mb-8 tracking-[-0.03em]">Anointer</h1>
+    <p class="font-display text-[clamp(1.1rem,3vw,1.6rem)] italic font-normal opacity-70 max-w-[600px]">"A quick blessing for your typography choices."</p>
+    <div class="scroll-hint absolute bottom-20 text-xs uppercase tracking-[0.25em] opacity-40">Scroll to receive ↓</div>
   </section>
 
-  <section class="install">
-    <h2 class="section-title">Receive the Gift</h2>
+  <!-- Install Section -->
+  <section class="py-24 md:py-36 px-6 text-center border-b-2 border-black">
+    <h2 class="font-display text-[clamp(2.5rem,10vw,7rem)] font-black leading-[0.95] mb-16">Receive the Gift</h2>
 
-    <div class="install-area">
-      <p class="gospel">And lo, drag this unto thy bookmarks bar, and thou shalt gain the power to transform all text before thine eyes.</p>
+    <div class="max-w-[700px] mx-auto mb-16">
+      <p class="font-display text-xl italic mb-10 text-gray-600 leading-relaxed">And lo, drag this unto thy bookmarks bar, and thou shalt gain the power to transform all text before thine eyes.</p>
 
-      <a class="bookmarklet-link" id="bookmarklet">
-        <span class="cross">☨</span>
+      <a class="inline-flex items-center rounded-xl gap-3.5 py-7 px-14 bg-black text-white no-underline font-display font-bold text-2xl transition-all duration-200 cursor-grab border-[3px] border-black hover:bg-white hover:text-black active:cursor-grabbing active:scale-[0.98]" id="bookmarklet">
+        <span class="text-3xl">☨</span>
         Anointer
       </a>
     </div>
 
-    <div class="instructions">
-      <div class="instruction">
-        <div class="instruction-num">I</div>
-        <div class="instruction-text">Drag the sacred button to your bookmarks bar</div>
+    <div class="max-w-[550px] mx-auto text-left">
+      <div class="flex gap-6 py-6 border-b border-gray-300">
+        <div class="font-display text-4xl font-black leading-none opacity-20 min-w-[60px]">I</div>
+        <div class="pt-2 text-lg">Drag the sacred button to your bookmarks bar</div>
       </div>
-      <div class="instruction">
-        <div class="instruction-num">II</div>
-        <div class="instruction-text">Journey to any website and invoke the Anointer</div>
+      <div class="flex gap-6 py-6 border-b border-gray-300">
+        <div class="font-display text-4xl font-black leading-none opacity-20 min-w-[60px]">II</div>
+        <div class="pt-2 text-lg">Journey to any website and invoke the Anointer</div>
       </div>
-      <div class="instruction">
-        <div class="instruction-num">III</div>
-        <div class="instruction-text">Select the text thou wishest to transform</div>
+      <div class="flex gap-6 py-6 border-b border-gray-300">
+        <div class="font-display text-4xl font-black leading-none opacity-20 min-w-[60px]">III</div>
+        <div class="pt-2 text-lg">Select the text thou wishest to transform</div>
       </div>
-      <div class="instruction">
-        <div class="instruction-num">IV</div>
-        <div class="instruction-text">Choose thy font and witness the transubstantiation</div>
+      <div class="flex gap-6 py-6">
+        <div class="font-display text-4xl font-black leading-none opacity-20 min-w-[60px]">IV</div>
+        <div class="pt-2 text-lg">Choose thy font and witness the transubstantiation</div>
       </div>
     </div>
 
-    <div class="tip">
-      <strong>Revelation:</strong> If thine bookmarks bar remaineth hidden, press <code>Ctrl+Shift+B</code> (Windows) or <code>Cmd+Shift+B</code> (Mac) to summon it forth.
+    <div class="max-w-[550px] mx-auto mt-10 p-6 bg-gray-100 text-left text-base text-gray-600">
+      <strong class="text-black">Revelation:</strong> If thine bookmarks bar remaineth hidden, press <code class="bg-gray-300 px-2 py-0.5 font-code text-sm">Ctrl+Shift+B</code> (Windows) or <code class="bg-gray-300 px-2 py-0.5 font-code text-sm">Cmd+Shift+B</code> (Mac) to summon it forth.
     </div>
-    <div style="text-align:center; margin-top: 4em;">
+    <div class="text-center mt-16">
       <a class="github-button" href="https://github.com/alv22/anointer" data-color-scheme="no-preference: light; light: dark; dark: dark;" data-size="large" aria-label="Star alv22/anointer on GitHub">Star</a>
     </div>
   </section>
 
-  <section class="playground">
-    <div class="playground-intro">
-      <h2 class="section-title">The Testing Grounds</h2>
-      <p>Select any text below. Let the Holy Fonts flow through your fingertips.</p>
+  <!-- Playground Section -->
+  <section class="bg-black text-white py-24 md:py-36 px-6">
+    <div class="text-center mb-24">
+      <h2 class="font-display text-[clamp(2.5rem,10vw,7rem)] font-black leading-[0.95] mb-8">The Testing Grounds</h2>
+      <p class="font-display text-xl md:text-2xl italic opacity-60 max-w-[600px] mx-auto">Select any text below. Let the Holy Fonts flow through your fingertips.</p>
     </div>
 
-    <div class="test-blocks">
+    <div class="max-w-[1400px] mx-auto grid gap-px bg-gray-700">
 
-      <div class="test-block light sermon">
-        <div class="test-label">The Sermon</div>
-        <div class="huge">Helvetica is not a personality</div>
-        <div class="verse">— Typography 3:16</div>
+      <!-- The Sermon -->
+      <div class="bg-white text-black p-8 md:p-14 lg:p-24 font-display text-center">
+        <div class="text-[0.65rem] uppercase tracking-[0.2em] opacity-40 mb-5">The Sermon</div>
+        <div class="text-[clamp(1.8rem,8vw,5.5rem)] font-black leading-[0.95] mb-7">Helvetica is not a personality</div>
+        <div class="text-lg md:text-xl italic opacity-50">— Typography 3:16</div>
       </div>
 
-      <div class="test-block">
-        <div class="test-label">The Psalm</div>
-        <p class="psalm">Typography is the craft of endowing human language with a durable visual form. It is the art of designing letterforms and arranging them on a page or screen so that they become not mere symbols, but vessels of meaning, emotion, and beauty. In the beginning was the Word, and the Word needed a really good typeface.</p>
+      <!-- The Psalm -->
+      <div class="bg-black p-8 md:p-14">
+        <div class="text-[0.65rem] uppercase tracking-[0.2em] opacity-40 mb-5">The Psalm</div>
+        <p class="font-display text-lg md:text-xl leading-loose max-w-full md:max-w-[70ch]">Typography is the craft of endowing human language with a durable visual form. It is the art of designing letterforms and arranging them on a page or screen so that they become not mere symbols, but vessels of meaning, emotion, and beauty. In the beginning was the Word, and the Word needed a really good typeface.</p>
       </div>
 
-      <div class="test-block light commandments">
-        <div class="test-label">The Commandments</div>
+      <!-- The Commandments -->
+      <div class="commandments bg-white text-black p-8 md:p-14 font-display">
+        <div class="text-[0.65rem] uppercase tracking-[0.2em] opacity-40 mb-5">The Commandments</div>
         <ol>
-          <li>Thou shalt not use Comic Sans in professional documents</li>
-          <li>Thou shalt respect the kerning</li>
-          <li>Thou shalt maintain adequate line-height</li>
-          <li>Thou shalt not stretch thy fonts horizontally</li>
-          <li>Thou shalt limit thyself to two typefaces per design</li>
+          <li class="flex flex-col md:flex-row gap-2 md:gap-5 py-5 border-b border-black/10 text-base md:text-lg">Thou shalt not use Comic Sans in professional documents</li>
+          <li class="flex flex-col md:flex-row gap-2 md:gap-5 py-5 border-b border-black/10 text-base md:text-lg">Thou shalt respect the kerning</li>
+          <li class="flex flex-col md:flex-row gap-2 md:gap-5 py-5 border-b border-black/10 text-base md:text-lg">Thou shalt maintain adequate line-height</li>
+          <li class="flex flex-col md:flex-row gap-2 md:gap-5 py-5 border-b border-black/10 text-base md:text-lg">Thou shalt not stretch thy fonts horizontally</li>
+          <li class="flex flex-col md:flex-row gap-2 md:gap-5 py-5 text-base md:text-lg">Thou shalt limit thyself to two typefaces per design</li>
         </ol>
       </div>
 
-      <div class="test-block">
-        <div class="test-label">The Liturgy</div>
-        <div class="liturgy">
-          <div class="liturgy-item">Button</div>
-          <div class="liturgy-item">Link Text</div>
-          <div class="liturgy-item">LABEL</div>
-          <div class="liturgy-item">Heading</div>
-          <div class="liturgy-item">Caption</div>
-          <div class="liturgy-item">Menu Item</div>
+      <!-- The Liturgy -->
+      <div class="bg-black p-8 md:p-14">
+        <div class="text-[0.65rem] uppercase tracking-[0.2em] opacity-40 mb-5">The Liturgy</div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div class="py-4 px-5 bg-neutral-900 font-medium text-sm md:text-base">Button</div>
+          <div class="py-4 px-5 bg-neutral-900 font-medium text-sm md:text-base">Link Text</div>
+          <div class="py-4 px-5 bg-neutral-900 font-medium text-sm md:text-base">LABEL</div>
+          <div class="py-4 px-5 bg-neutral-900 font-medium text-sm md:text-base">Heading</div>
+          <div class="py-4 px-5 bg-neutral-900 font-medium text-sm md:text-base">Caption</div>
+          <div class="py-4 px-5 bg-neutral-900 font-medium text-sm md:text-base">Menu Item</div>
         </div>
       </div>
 
-      <div class="test-block light">
-        <div class="test-label">The Scripture</div>
-        <div class="scripture">
-<span class="keyword">const</span> blessText = <span class="string">"In Nomine Fontis"</span>;
-<pre>
-<span class="comment">// Perform the sacred ritual</span>
-document.querySelectorAll(<span class="string">'*'</span>).forEach(el =&gt; {
-  el.style.fontFamily = <span class="string">'Comic Sans MS'</span>; <span class="comment">// HERESY!</span>
-});</pre></div>
+      <!-- The Scripture -->
+      <div class="bg-white text-black p-8 md:p-14">
+        <div class="text-[0.65rem] uppercase tracking-[0.2em] opacity-40 mb-5">The Scripture</div>
+        <pre class="scripture font-code text-sm leading-loose bg-neutral-950 text-green-400 p-6 md:p-9 whitespace-pre-wrap"><span class="keyword">class</span> Font <span class="keyword">extends</span> Scriptures {
+  <span class="keyword">constructor</span>(kerning) {
+    <span class="keyword">super</span>();
+    <span class="keyword">this</span>.holy = <span class="keyword">true</span>;
+  }
+
+  bless(text) {
+    <span class="keyword">return</span> text.toUpperCase();
+    <span class="comment">// lowercase is for mortals</span>
+  }
+}</pre>
       </div>
 
-      <div class="test-block">
-        <div class="test-label">The Hymnal</div>
-        <div class="hymnal">
-          <div class="hymnal-xl">GLORIA IN EXCELSIS</div>
-          <div class="hymnal-lg">Kyrie Eleison</div>
-          <div class="hymnal-md">Regular text for the faithful masses</div>
-          <div class="hymnal-sm">Small print (terms and absolutions may apply)</div>
-          <div class="hymnal-xs">Fine print for the truly devoted</div>
+      <!-- The Hymnal -->
+      <div class="bg-black p-8 md:p-14">
+        <div class="text-[0.65rem] uppercase tracking-[0.2em] opacity-40 mb-5">The Hymnal</div>
+        <div class="flex flex-col gap-4">
+          <div class="text-3xl md:text-5xl lg:text-6xl font-black font-display leading-none">GLORIA IN EXCELSIS</div>
+          <div class="text-xl md:text-2xl lg:text-3xl font-bold font-display">Kyrie Eleison</div>
+          <div class="text-base md:text-lg opacity-80">Regular text for the faithful masses</div>
+          <div class="text-sm opacity-50">Small print (terms and absolutions may apply)</div>
+          <div class="text-xs opacity-35 uppercase tracking-[0.15em]">Fine print for the truly devoted</div>
         </div>
       </div>
 
-      <div class="test-block light">
-        <div class="test-label">The Relics</div>
-        <div class="relics">
+      <!-- The Relics -->
+      <div class="bg-white text-black p-8 md:p-14">
+        <div class="text-[0.65rem] uppercase tracking-[0.2em] opacity-40 mb-5">The Relics</div>
+        <div class="font-code text-sm md:text-base leading-[2.4] opacity-70 break-all md:break-normal">
           ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>
           abcdefghijklmnopqrstuvwxyz<br>
           0123456789<br>
@@ -576,78 +144,73 @@ document.querySelectorAll(<span class="string">'*'</span>).forEach(el =&gt; {
         </div>
       </div>
 
-      <div class="test-block tongues">
-        <div class="test-label">Speaking in Tongues</div>
-        <div class="tongue">
-          <span class="tongue-label">English</span>
-          <span class="tongue-text">The quick brown fox jumps over the lazy dog</span>
-        </div>
-        <div class="tongue">
-          <span class="tongue-label">Latin</span>
-          <span class="tongue-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit</span>
-        </div>
-        <div class="tongue">
-          <span class="tongue-label">Finnish</span>
-          <span class="tongue-text">Jäätteenmäen hääyöaie peruuntui: Åbo-akatemiassa olikin vain örkkejä töräyttelemässä.</span>
-        </div>
-        <div class="tongue">
-          <span class="tongue-label">German</span>
-          <span class="tongue-text">Falsches Üben von Xylophonmusik quält jeden größeren Zwerg</span>
-        </div>
-        <div class="tongue">
-          <span class="tongue-label">Icelandic</span>
-          <span class="tongue-text">Hræddur þjálfari bölvaði: ‘Æ, ónei!’ þegar öxin féll á xýlófóninn.</span>
-        </div>
-        <div class="tongue">
-          <span class="tongue-label">Arabic</span>
-          <span class="tongue-text">زومبي أخرق يعزف على الإكسيلوفون ويصرخ: «يا سلام! لماذا هذا الصوت لطيفٌ جدًا؟</span>
-        </div>
-        <div class="tongue">
-          <span class="tongue-label">Korean</span>
-          <span class="tongue-text">괴짜 좀비가 쿵쾅대며 자일로폰을 쥐고 외쳤다: ‘왜 이렇게 뿌엉~하고 귀엽냐?!</span>
-        </div>
-        <div class="tongue">
-          <span class="tongue-label">Japanese</span>
-          <span class="tongue-text">怪しい妖怪がジャズ風シロフォンをボヨヨ〜ンと叩き、ヅラ猫はウィンクした。「ヴォイ！」</span>
-        </div>
-        <div class="tongue">
-          <span class="tongue-label">Chinese</span>
-          <span class="tongue-text">怪咖僵尸在北京胡同敲着木琴，嚷着：“别忘了吃剁椒螺蛳粉</span>
-        </div>
-        <div class="tongue">
-          <span class="tongue-label">Thai</span>
-          <span class="tongue-text">ซอมบี้จอมเปิ่นตีระนาดแล้วร้องลั่นว่า ‘โอ๊ย! ทำไมเสียงมันน่ารักจังวะ?!</span>
+      <!-- Speaking in Tongues -->
+      <div class="bg-black p-8 md:p-14">
+        <div class="text-[0.65rem] uppercase tracking-[0.2em] opacity-40 mb-5">Speaking in Tongues</div>
+        <div class="grid gap-5">
+          <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-1 md:gap-5 items-baseline">
+            <span class="text-[0.65rem] uppercase tracking-[0.15em] opacity-40">English</span>
+            <span class="font-display text-lg md:text-xl">The quick brown fox jumps over the lazy dog</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-1 md:gap-5 items-baseline">
+            <span class="text-[0.65rem] uppercase tracking-[0.15em] opacity-40">Latin</span>
+            <span class="font-display text-lg md:text-xl">Lorem ipsum dolor sit amet, consectetur adipiscing elit</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-1 md:gap-5 items-baseline">
+            <span class="text-[0.65rem] uppercase tracking-[0.15em] opacity-40">Finnish</span>
+            <span class="font-display text-lg md:text-xl">Jäätteenmäen hääyöaie peruuntui: Åbo-akatemiassa olikin vain örkkejä töräyttelemässä.</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-1 md:gap-5 items-baseline">
+            <span class="text-[0.65rem] uppercase tracking-[0.15em] opacity-40">German</span>
+            <span class="font-display text-lg md:text-xl">Falsches Üben von Xylophonmusik quält jeden größeren Zwerg</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-1 md:gap-5 items-baseline">
+            <span class="text-[0.65rem] uppercase tracking-[0.15em] opacity-40">Icelandic</span>
+            <span class="font-display text-lg md:text-xl">Hræddur þjálfari bölvaði: 'Æ, ónei!' þegar öxin féll á xýlófóninn.</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-1 md:gap-5 items-baseline">
+            <span class="text-[0.65rem] uppercase tracking-[0.15em] opacity-40">Arabic</span>
+            <span class="font-display text-lg md:text-xl">زومبي أخرق يعزف على الإكسيلوفون ويصرخ: «يا سلام! لماذا هذا الصوت لطيفٌ جدًا؟</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-1 md:gap-5 items-baseline">
+            <span class="text-[0.65rem] uppercase tracking-[0.15em] opacity-40">Korean</span>
+            <span class="font-display text-lg md:text-xl">괴짜 좀비가 쿵쾅대며 자일로폰을 쥐고 외쳤다: '왜 이렇게 뿌엉~하고 귀엽냐?!</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-1 md:gap-5 items-baseline">
+            <span class="text-[0.65rem] uppercase tracking-[0.15em] opacity-40">Japanese</span>
+            <span class="font-display text-lg md:text-xl">怪しい妖怪がジャズ風シロフォンをボヨヨ〜ンと叩き、ヅラ猫はウィンクした。「ヴォイ！」</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-1 md:gap-5 items-baseline">
+            <span class="text-[0.65rem] uppercase tracking-[0.15em] opacity-40">Chinese</span>
+            <span class="font-display text-lg md:text-xl">怪咖僵尸在北京胡同敲着木琴，嚷着："别忘了吃剁椒螺蛳粉</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-1 md:gap-5 items-baseline">
+            <span class="text-[0.65rem] uppercase tracking-[0.15em] opacity-40">Thai</span>
+            <span class="font-display text-lg md:text-xl">ซอมบี้จอมเปิ่นตีระนาดแล้วร้องลั่นว่า 'โอ๊ย! ทำไมเสียงมันน่ารักจังวะ?!</span>
+          </div>
         </div>
       </div>
 
     </div>
   </section>
 
-  <section class="revelation">
-    <div class="massive">Go forth and set type.</div>
+  <!-- Revelation Section -->
+  <section class="py-32 md:py-44 px-6 text-center bg-white text-black">
+    <div class="font-display text-[clamp(3rem,8vw,10rem)] font-black leading-[0.9]">Go forth and set type.</div>
   </section>
 
-  <footer>
-    <div class="footer-links">
+  <!-- Footer -->
+  <footer class="bg-black text-white py-24 px-6 text-center">
+    <div class="flex justify-center gap-12 mb-10 text-lg">
       <a class="github-button" href="https://github.com/alv22/anointer" data-color-scheme="no-preference: light; light: dark; dark: dark;" data-size="large" aria-label="Star alv22/anointer on GitHub">Star</a>
     </div>
-    <p class="blessing">Freely given unto the world</p>
-    <p class="blessing">by <a href="https://www.hexagon.fi" target="_blank">Hexagon Intergalactic Ltd</a></p>
-    <p class="blessing" style="margin-top: 16px; opacity: 0.4; font-size: 0.85rem;">Open source. No indulgences required.</p>
-    <div class="amen">A M E N</div>
+    <p class="font-display italic text-lg opacity-50 mb-3">Freely given unto the world</p>
+    <p class="font-display italic text-lg opacity-50 mb-3">by <a href="https://www.hexagon.fi" target="_blank" class="text-white no-underline border-b border-white/30 hover:border-white transition-colors">Hexagon Intergalactic Ltd</a></p>
+    <p class="font-display italic text-sm opacity-40 mt-4">Open source. No indulgences required.</p>
+    <div class="font-display text-4xl font-black mt-12 tracking-[0.4em] opacity-30">A M E N</div>
   </footer>
 
-  <script>
-    fetch('bookmarklet.js')
-      .then(function(response) { return response.text(); })
-      .then(function(code) {
-        var minified = code
-          .replace(/\n\s*/g, ' ')
-          .replace(/\s+/g, ' ')
-          .trim();
-        document.getElementById('bookmarklet').href = 'javascript:' + encodeURIComponent(minified);
-      });
-  </script>
+  <script type="module" src="/src/main.js"></script>
   <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 </html>

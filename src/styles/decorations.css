@@ -1,0 +1,36 @@
+/* Hero section decorative pseudo-elements */
+.hero::before {
+  content: "† † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † † †";
+  position: absolute;
+  top: 20px;
+  left: 0;
+  right: 0;
+  font-size: 1rem;
+  letter-spacing: 0.5rem;
+  opacity: 0.15;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.hero::after {
+  content: "☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦ ☦";
+  position: absolute;
+  bottom: 20px;
+  left: 0;
+  right: 0;
+  font-size: 1rem;
+  letter-spacing: 0.5rem;
+  opacity: 0.15;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* Scroll hint bobbing animation */
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+.scroll-hint {
+  animation: bob 2s ease-in-out infinite;
+}

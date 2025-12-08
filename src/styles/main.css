@@ -1,0 +1,35 @@
+@import "tailwindcss";
+@import "./decorations.css";
+
+@theme {
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-code: 'JetBrains Mono', monospace;
+}
+
+/* Base styles */
+html {
+  font-size: 18px;
+}
+
+/* Commandments list with Roman numerals */
+.commandments ol {
+  list-style: none;
+  counter-reset: commandment;
+}
+
+.commandments li {
+  counter-increment: commandment;
+}
+
+.commandments li::before {
+  content: counter(commandment, upper-roman) ".";
+  min-width: 50px;
+  font-weight: 700;
+  opacity: 0.35;
+}
+
+/* Code syntax highlighting */
+.scripture .comment { opacity: 0.4; }
+.scripture .keyword { color: #f0f; }
+.scripture .string { color: #ff0; }
